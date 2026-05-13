@@ -7,32 +7,28 @@
 
 class Course {
 private:
+    int id;
     std::string name;
-    std::string category;           // e.g., "Python", "Data Science"
-    int difficultyLevel;            // 1=beginner, 2=intermediate, 3=advanced
+    std::string category;
+    int difficultyLevel;
+    int duration; // in months
     std::vector<std::string> modules;
-    // Map: module name -> list of prerequisite module names
-    std::map<std::string, std::vector<std::string>> modulePrerequisites;
+    std::map<std::string, int> modulePrerequisites;
 
 public:
-    Course(std::string _name, std::string _category, int _difficultyLevel);
+    Course(int _id, std::string _name, std::string _category, int _difficultyLevel, int _duration);
 
     void addModule(std::string moduleName);
-    void addPrerequisite(std::string module, std::string requiredModule);  // improved!
-    void setPrerequisites(const std::map<std::string, std::vector<std::string>>& prereqs);
+    void addPrerequisite(std::string module, int requiredModuleIndex);
 
-    // CSV persistence
-    static std::vector<Course> loadFromCSV(const std::string& filepath);
-    void saveToCSV(const std::string& filepath) const;
-
-    // Getters and helpers
+    int getId() const;
     std::string getName() const;
     std::string getCategory() const;
     int getDifficultyLevel() const;
+    int getDuration() const;
     std::vector<std::string> getModules() const;
+    std::vector<std::string> getNextModules(std::vector<std::string> completedModules) const;
     int getTotalModules() const;
-    std::vector<std::string> getNextModules(const std::vector<std::string>& completedModules) const;
-    std::vector<std::string> getPrerequisitesForModule(const std::string& module) const;
 };
 
 #endif

@@ -10,11 +10,12 @@ private:
     int id;
     std::string name;
     std::string goal;
-    int skillLevel;                             // 1=beginner, 2=intermediate, 3=advanced
-    std::map<std::string, float> moduleScores;  // module -> score (0-100)
+    int skillLevel;
+    std::map<std::string, float> moduleScores;
     std::vector<std::string> completedModules;
     std::vector<std::string> strugglingModules;
-    float overallProgress;                      // 0-100
+    float overallProgress;
+    std::vector<std::string> enrolledCourses;
 
 public:
     Learner(int _id, std::string _name, std::string _goal, int _skillLevel);
@@ -23,10 +24,8 @@ public:
     void markModuleComplete(std::string module);
     void detectStruggle(float threshold = 60.0f);
     void calculateOverallProgress(int totalModules);
-
-    // CSV persistence
-    static std::vector<Learner> loadFromCSV(const std::string& filepath);
-    void saveToCSV(const std::string& filepath) const;  // appends one learner
+    void enrollInCourse(std::string courseName);
+    void saveToCSV();
 
     // Getters
     int getId() const;
@@ -36,6 +35,10 @@ public:
     float getOverallProgress() const;
     std::vector<std::string> getStrugglingModules() const;
     std::map<std::string, float> getModuleScores() const;
+    std::vector<std::string> getEnrolledCourses() const;
+
+    // Setters
+    void setSkillLevel(int level);
 };
 
 #endif
